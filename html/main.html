@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Jquery 3.6.3 -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="../js/main.js"></script>
+
+  <!-- font awesome -->
+  <script src="https://kit.fontawesome.com/e1d7e749b8.js" crossorigin="anonymous"></script>
+
+  <style>
+    .selected{
+      color: black;
+      background-color: #0fbcf9;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex align-items-start">
+    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <button class="nav-link active" id="v-pills-department
+          -tab" data-bs-toggle="pill" data-bs-target="#v-pills-department
+          " type="button" role="tab" aria-controls="v-pills-department
+          " aria-selected="true">Department
+
+      </button>
+      <button class="nav-link" id="v-pills-account-tab" data-bs-toggle="pill" data-bs-target="#v-pills-account"
+        type="button" role="tab" aria-controls="v-pills-account" aria-selected="false">Account</button>
+
+    </div>
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade show active" id="v-pills-department
+          " role="tabpanel" aria-labelledby="v-pills-department
+          -tab" tabindex="0">
+      </div>
+      
+      
+      <div class="tab-pane fade" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab"
+        tabindex="0">
+        <div id="accounts" class="container">
+
+          <div class="row">
+            <div class="col-auto mb-3">
+              <label for="role" class="form-label">Role</label>
+              <select class="form-select form-select-sm" name="role" id="role">
+                <option value="-1">All</option>
+                <option value="ADMIN">Admin</option>
+                <option value="EMPLOYEE">Employee</option>
+                <option value="MANAGER">Manager</option>
+              </select>
+            </div>
+            <div class="col-auto mb-3">
+              <label for="department" class="form-label">Department</label>
+              <select class="form-select form-select-sm" name="department" id="department">
+                <option value="-1">All</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row">
+            <form class="d-flex col-6" role="search">
+              <input id="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button id="btn-search" class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+            <div class="methods col-6">
+              <button id="btn-refresh" type="button" class="btn btn-outline-primary">
+                <i class="fa-sharp fa-solid fa-arrows-rotate"></i>Refresh</button>
+              <button id="btn-add" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addModal" >
+                <i class="fa-solid fa-plus"></i>Add</button>
+              <button id="btn-edit" type="button" class="btn btn-outline-warning" data-bs-toggle="modal" disabled data-bs-target="#updateModal">
+                <i class="fa-solid fa-pen-to-square"></i>Edit</button>
+              <button id="btn-delete" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" disabled data-bs-target="#deleteModal">
+                <i class="fa-solid fa-trash"></i>Delete</button>
+            </div>
+          </div>
+
+          <div class="row my-4">
+            <table id="accounts-table" class="table table-hover" style="height: 300px;">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Username</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Role</th>
+                <th scope="col">Department</th>
+              </tr>
+            </thead>
+            <tbody id="accounts-tbody" class="table-group-divider">
+            </tbody>
+            </table>
+            <!-- <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div> -->
+          </div>
+
+          <div class="row">
+            <p id="page-info" class="text-start col-auto">Showing 1 to 10 of 100 rows </p>
+            <div class="col-auto">
+              <select class="form-select form-select-sm" name="page-size" id="page-size" >
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+            <p class="text-start col-auto">rows per page</p>
+            <nav aria-label="Page navigation example" class="col-auto">
+              <ul class="pagination pagination-sm">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item">
+                  <input id="page-number" type="text" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="1">
+                </li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            </nav>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Create Modal -->
+  <div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Create New Account</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="create-username" class="form-label">Username</label>
+                <input type="text"
+                  class="form-control" name="create-username" id="create-username" aria-describedby="create-username-help" placeholder="Ex : abc123">
+                <small id="create-username-help" class="form-text text-muted">Max length is 50 characters</small>
+            </div>
+            <div class="mb-3">
+                <label for="create-firstName" class="form-label">First Name</label>
+                <input type="text"
+                  class="form-control" name="create-firstName" id="create-firstName" aria-describedby="create-firstName-help" >
+                <small id="create-firstName-help" class="form-text text-muted">Max length is 50 characters</small>
+            </div>
+            <div class="mb-3">
+                <label for="create-lastName" class="form-label">Last Name</label>
+                <input type="text"
+                  class="form-control" name="create-lastName" id="create-lastName" aria-describedby="create-lastName-help" >
+                <small id="create-lastName-help" class="form-text text-muted">Max length is 50 characters</small>
+            </div>
+            <div class="mb-3">
+                <label for="create-password" class="form-label">Password</label>
+                <input type="password"
+                  class="form-control" name="create-password" id="create-password" aria-describedby="create-password-help" placeholder="Ex : abc123">
+                <small id="create-password-help" class="form-text text-muted">Max length is 50 characters</small>
+            </div>
+            <div class="mb-3">
+                <label for="create-role" class="form-label">Role</label>
+                <select class="form-select form-select-sm" name="create-role" id="create-role">
+                  <option value="ADMIN">Admin</option>
+                  <option value="EMPLOYEE">Employee</option>
+                  <option value="MANAGER">Manager</option>
+                </select>
+            </div>
+            <div class="mb-3">
+              <label for="create-department" class="form-label">Department</label>
+              <!-- load department with value is id -->
+              <select class="form-select form-select-sm" name="create-department" id="create-department">
+                <option value="1">All</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="btn-create" type="button" class="btn btn-primary">Create</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    <!-- Update Modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Update Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                <label for="update-id" class="form-label">ID</label>
+                <input type="text"
+                  class="form-control" name="update-id" id="update-id"  disabled>
+              </div>
+              <div class="mb-3">
+                  <label for="update-username" class="form-label">Username</label>
+                  <input type="text"
+                    class="form-control" name="update-username" id="update-username"  disabled>
+              </div>
+              <div class="mb-3">
+                  <label for="update-fullName" class="form-label">Full Name</label>
+                  <input type="text"
+                    class="form-control" name="update-fullName" id="update-fullName" disabled>
+              </div>
+              
+              <div class="mb-3">
+                  <label for="update-role" class="form-label">Role</label>
+                  <select class="form-select form-select-sm" name="update-role" id="update-role">
+                    <option value="ADMIN">Admin</option>
+                    <option value="EMPLOYEE">Employee</option>
+                    <option value="MANAGER">Manager</option>
+                  </select>
+              </div>
+              <div class="mb-3">
+                <label for="update-department" class="form-label">Department</label>
+                <!-- load department with value is id -->
+                <select class="form-select form-select-sm" name="update-department" id="update-department">
+                  <option value="1">All</option>
+                </select>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button id="btn-update" type="button" class="btn btn-primary">Update</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Account</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body"> 
+            <p id="delete-warning">123</p>       
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button id="btn-confirm-delete" type="button" class="btn btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>
