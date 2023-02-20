@@ -14,29 +14,114 @@
       color: black;
       background-color: #0fbcf9;
     }
+    .department-selected{
+      color: black;
+      background-color: burlywood;
+    }
   </style>
 </head>
 
 <body>
   <div class="d-flex align-items-start">
-    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-      <button class="nav-link active" id="v-pills-department
-          -tab" data-bs-toggle="pill" data-bs-target="#v-pills-department
-          " type="button" role="tab" aria-controls="v-pills-department
-          " aria-selected="true">Department
 
-      </button>
+    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+      <button class="nav-link " id="v-pills-department-tab" data-bs-toggle="pill" data-bs-target="#v-pills-department" 
+      type="button" role="tab" aria-controls="v-pills-department" aria-selected="false">Department</button>
+
+
       <button class="nav-link" id="v-pills-account-tab" data-bs-toggle="pill" data-bs-target="#v-pills-account"
-        type="button" role="tab" aria-controls="v-pills-account" aria-selected="false">Account</button>
+        type="button" role="tab" aria-controls="v-pills-account" aria-selected="false">Account
+      </button>
 
     </div>
-    <div class="tab-content" id="v-pills-tabContent">
-      <div class="tab-pane fade show active" id="v-pills-department
-          " role="tabpanel" aria-labelledby="v-pills-department
-          -tab" tabindex="0">
+
+    <div class="tab-content " id="v-pills-tabContent">
+      <div class="tab-pane fade" id="v-pills-department" role="tabpanel" aria-labelledby="v-pills-department-tab" tabindex="0">
+
+        <div id="department-list" class="container">
+          <div class="row">
+            <div class="col-auto mb-3">
+                <label for="min-created-date" class="form-label">Min Date: </label>
+                <input type="date" class="form-control form-control-sm" name="min-created-date" id="min-created-date">
+            </div>
+            <div class="col-auto mb-3">
+                <label for="max-created-date" class="form-label">Max Date: </label>
+                <input type="date" class="form-control form-control-sm" name="max-created-date" id="max-created-date">
+            </div>
+            <div class="col-auto mb-3">
+              <label for="filter-type" class="form-label">Type</label>
+              <select class="form-select form-select-sm" name="filter-type" id="filter-type">
+                <option value="-1">All</option>
+                <option value="Dev">Dev</option>
+                <option value="Test">Test</option>
+                <option value="ScrumMaster">ScrumMaster</option>
+                <option value="PM">PM</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <form class="d-flex col-4" role="search">
+              <input id="search-department" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button id="btn-search-department" class="btn btn-outline-success" type="submit" disabled>Hello</button>
+            </form>
+            <div class="methods col-8">
+              <button id="btn-refresh-department" type="button" class="btn btn-outline-primary">
+                <i class="fa-sharp fa-solid fa-arrows-rotate"></i>Search Department</button>
+              <button id="btn-add-department" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addDepartmentModal" >
+                <i class="fa-solid fa-plus"></i>Add</button>
+              <button id="btn-edit-department" type="button" class="btn btn-outline-warning" data-bs-toggle="modal" disabled data-bs-target="#updateDepartmentModal">
+                <i class="fa-solid fa-pen-to-square"></i>Edit</button>
+              <button id="btn-delete-department" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" disabled data-bs-target="#deleteDepartmentModal">
+                <i class="fa-solid fa-trash"></i>Delete</button>
+            </div>
+          </div>
+
+          <div class="row my-4">
+            <table id="department-table" class="table table-hover" style="height: 300px;">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Total member</th>
+                <th scope="col">Type</th>
+                <th scope="col">Create date</th>
+              </tr>
+            </thead>
+            <tbody id="department-tbody" class="table-group-divider">
+            </tbody>
+            </table>
+            <!-- <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div> -->
+          </div>
+
+          <div class="row">
+            <p id="page-info-department" class="text-start col-auto"></p>
+            <div class="col-auto">
+              <select class="form-select form-select-sm" name="page-size" id="page-size-department" >
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+              </select>
+            </div>
+            <p class="text-start col-auto">rows per page</p>
+            <nav aria-label="Page navigation example" class="col-auto">
+              <ul class="pagination pagination-sm">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item">
+                  <input id="page-number-department" type="text" class="form-control form-control-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="1">
+                </li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+              </ul>
+            </nav>
+          </div>
+
+        </div>
       </div>
+
       
-      
+
       <div class="tab-pane fade" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab"
         tabindex="0">
         <div id="accounts" class="container">
@@ -53,7 +138,7 @@
             </div>
             <div class="col-auto mb-3">
               <label for="department" class="form-label">Department</label>
-              <select class="form-select form-select-sm" name="department" id="department">
+              <select class="form-select form-select-sm" name="department-name" id="department">
                 <option value="-1">All</option>
               </select>
             </div>
@@ -62,12 +147,12 @@
           <div class="row">
             <form class="d-flex col-6" role="search">
               <input id="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button id="btn-search" class="btn btn-outline-success" type="submit">Search</button>
+              <button id="btn-search" class="btn btn-outline-success" type="submit" disabled>Hello</button>
             </form>
 
             <div class="methods col-6">
               <button id="btn-refresh" type="button" class="btn btn-outline-primary">
-                <i class="fa-sharp fa-solid fa-arrows-rotate"></i>Refresh</button>
+                <i class="fa-sharp fa-solid fa-arrows-rotate"></i>Search Account</button>
               <button id="btn-add" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#addModal" >
                 <i class="fa-solid fa-plus"></i>Add</button>
               <button id="btn-edit" type="button" class="btn btn-outline-warning" data-bs-toggle="modal" disabled data-bs-target="#updateModal">
@@ -122,7 +207,7 @@
 
     </div>
   </div>
-  <!-- Create Modal -->
+  <!-- Create Account Modal -->
   <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
@@ -131,6 +216,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          <form id="create-account-form">
             <div class="mb-3">
                 <label for="create-username" class="form-label">Username</label>
                 <input type="text"
@@ -167,9 +253,9 @@
               <label for="create-department" class="form-label">Department</label>
               <!-- load department with value is id -->
               <select class="form-select form-select-sm" name="create-department" id="create-department">
-                <option value="1">All</option>
               </select>
             </div>
+          </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button id="btn-create" type="button" class="btn btn-primary">Create</button>
@@ -179,7 +265,7 @@
     </div>
   </div>
   
-    <!-- Update Modal -->
+    <!-- Update Account Modal -->
     <div class="modal fade" id="updateModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -216,7 +302,6 @@
                 <label for="update-department" class="form-label">Department</label>
                 <!-- load department with value is id -->
                 <select class="form-select form-select-sm" name="update-department" id="update-department">
-                  <option value="1">All</option>
                 </select>
               </div>
               <div class="modal-footer">
@@ -228,7 +313,7 @@
       </div>
     </div>
 
-    <!-- Delete Modal -->
+    <!-- Delete Account Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -237,7 +322,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body"> 
-            <p id="delete-warning">123</p>       
+            <p id="delete-warning"></p>       
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button id="btn-confirm-delete" type="button" class="btn btn-danger">Delete</button>
@@ -246,6 +331,102 @@
         </div>
       </div>
     </div>
+
+    <!--Create Department Modal  -->
+    <div class="modal fade" id="addDepartmentModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Create New Department</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                  <label for="create-department-name" class="form-label">Name</label>
+                  <input type="text"
+                    class="form-control" name="create-department-name" id="create-department-name" aria-describedby="create-department-name-help" placeholder="Ex : abc123">
+                  <small id="create-department-name-help" class="form-text text-muted">Max length is 50 characters</small>
+              </div>
+              
+              <div class="mb-3">
+                  <label for="create-department-type" class="form-label">Role</label>
+                  <select class="form-select form-select-sm" name="create-department-type" id="create-department-type">
+                    <option value="Dev">Dev</option>
+                    <option value="Test">Test</option>
+                    <option value="ScrumMaster">ScrumMaster</option>
+                    <option value="PM">PM</option>
+                  </select>
+              </div>
+  
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button id="btn-create-department" type="button" class="btn btn-primary">Create</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--Update Department Modal  -->
+    <div class="modal fade" id="updateDepartmentModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="updateModalLabel">Update Department</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="mb-3">
+                <label for="update-department-id" class="form-label">ID</label>
+                <input type="text"
+                  class="form-control" name="update-department-id" id="update-department-id"  disabled>
+            </div>
+              <div class="mb-3">
+                  <label for="update-department-name" class="form-label">Name</label>
+                  <input type="text"
+                    class="form-control" name="update-department-name" id="update-department-name"  disabled>
+              </div>
+              
+              <div class="mb-3">
+                  <label for="update-department-type" class="form-label">Role</label>
+                  <select class="form-select form-select-sm" name="update-department-type" id="update-department-type">
+                    <option value="Dev">Dev</option>
+                    <option value="Test">Test</option>
+                    <option value="ScrumMaster">ScrumMaster</option>
+                    <option value="PM">PM</option>
+                  </select>
+              </div>
+  
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button id="btn-update-department" type="button" class="btn btn-primary">Update</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+ <!-- Delete Department Modal -->
+ <div class="modal fade" id="deleteDepartmentModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Department</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body"> 
+        <p id="delete-department-warning"></p>       
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button id="btn-confirm-delete-department" type="button" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 
 </html>
